@@ -85,13 +85,16 @@
 
 ### 项目指定配置文件
 > 引用一个项目指定的配置文件，可以通过添加它到一个在项目根目录下（与.xcodeproj目录所在在的相同目录），名为FauxPasConfig的目录下，它的扩展名为.fauxpas.json. 这个文件也可以存在在其它地方，只要它的扩展名如同上述，并且你的Xcode项目包含一个指向它的引用。
+
 > 如果有多个配置文件在FauxPasConfig目录下，则默认使用名为main.fauxpas.json的那个。
+
 > 项目指定的配置文件将被自动选取，无论在命令行接口或在图形界面工具的调用时。
 
 ### 配置建议
 > 很多FauxPas的配置选项会影响它检查你的项目的时间。对于大多数Xcode项目的，默认是一个尝试利于平衡速度和兼容性的配置；对于你特定的项目，为了提高检查速度，调整一些选项，也是OK的。
 
 > 这里有一些可以帮助你检查项目速度更快的建议：
+
 * 避免选择workspace和scheme。假如你想检查的项目可以被独立地build（也就是说不用作为一个workspace的一部分来build），请设置**“Xcode workspace to build project with”**和**“Xcode scheme to build project with”**选项不被选中。
 * 避免执行完全build（full builds）。如果**“Build project before checking”**选项关闭，FauxPas可以更快地开始坚持你的项目。有时这个选项是必须被打开的（例如如果项目在build过程中会生成头文件），但是对于大多数项目可以安全地关闭这个选项。
 * 仅仅处理指定目标的PCHs。如果**“Process only target precompiled headers”**选项是打开的，FauxPas可以更快地开始坚持你的项目。有时这个选项必须被关闭，但是对于大多数项目，它是可以安全地被打开的。
@@ -124,14 +127,16 @@
 > 关于怎样使用那些宏，更多的说明包含在这个头文件自身中
 
 ### 在特定的文件或目录中制止诊断
-* 在FauxPas中，每条规则都有一个名叫“Regexes for ignored file paths”的选项。这个选项可以被用来制止在这条规则下，全部的匹配它指定的正则表达式的文件路径
+> 在FauxPas中，每条规则都有一个名叫“Regexes for ignored file paths”的选项。这个选项可以被用来制止在这条规则下，全部的匹配它指定的正则表达式的文件路径
 
 ### 从检查中排除指定的文件、目录或Xcode组
-* 如果你想从被FauxPas检查的地方，排除匹配特定样式的文件，你可以使用下列选项：
+> 如果你想从被FauxPas检查的地方，排除匹配特定样式的文件，你可以使用下列选项：
+
 * 排除文件的正则表达式：[--fileExclusionRegexes]
 * 排除文件的前缀：[--fileExclusionPrefixes]
 * 排除的Xcode组：[--fileExclusionXcodeGroups]
-* 注意这些选项不仅仅制止诊断：它们完全从检查开始就排除了那些匹配的文件
+
+> 注意这些选项不仅仅制止诊断：它们完全从检查开始就排除了那些匹配的文件
 
 ## 启动FauxPas的快捷方式
 ### 在FauxPas图形界面工具中快速打开活动的Xcode项目

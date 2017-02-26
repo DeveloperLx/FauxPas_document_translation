@@ -61,7 +61,7 @@
 > 在命令行中，你也可以使用--onlyRules参数来仅仅执行指定的规则，覆盖全部的其它的规则选择选项。这对于当你的工程有一个指定的配置文件（带有规则和标签选择及规则排除），而你又想临时地覆盖掉时，是非常便利的。
 
 ## 使用命令行接口
-* 为了通过命令行使用FauxPas，你必须首先安装fauxpas命令：
+> 为了通过命令行使用FauxPas，你必须首先安装fauxpas命令：
 * 图形用户界面：从应用菜单中选择 FauxPas > Install CLI Tools... 菜单项。
 * 命令行：执行命令：
 
@@ -69,35 +69,39 @@
 	/Applications/FauxPas.app/Contents/Resources/install-cli-tools
 ```
 
-* 这将安装fauxpas命令到/usr/local/bin，但是你当然可以移动它到其它你希望的地方。
-* 在终端执行 fauxpas help，可以查看命令行接口的文档。
+> 这将安装fauxpas命令到/usr/local/bin，但是你当然可以移动它到其它你希望的地方。
+
+> 在终端执行 fauxpas help，可以查看命令行接口的文档。
 
 ## 配置
-* FauxPas可以通过下列方式进行配置：
+> FauxPas可以通过下列方式进行配置：
 * 命令行参数（如果你使用命令行接口）
 * 图形界面工具
 * 配置文件
 
-* 配置文件可以使用JSON来写。查看一个完整的示例配置文件，可以在终端执行执行 fauxpas exampleConfig（注意这要求命令行接口工具必须被安装）
-* 当使用命令行接口，配置文件可以选取通过 -c/--configFile 参数
+> 配置文件可以使用JSON来写。查看一个完整的示例配置文件，可以在终端执行执行 fauxpas exampleConfig（**注意这要求命令行接口工具必须被安装**）
+> 当使用命令行接口，配置文件可以选取通过 -c/--configFile 参数
 
 ### 项目指定配置文件
-* 引用一个项目指定的配置文件，可以通过添加它到一个在项目根目录下（与.xcodeproj目录所在在的相同目录），名为FauxPasConfig的目录下，它的扩展名为.fauxpas.json. 这个文件也可以存在在其它地方，只要它的扩展名如同上述，并且你的Xcode项目包含一个指向它的引用。
-* 如果有多个配置文件在FauxPasConfig目录下，则默认使用名为main.fauxpas.json的那个。
-* 项目指定的配置文件将被自动选取，无论在命令行接口或在图形界面工具的调用时。
+> 引用一个项目指定的配置文件，可以通过添加它到一个在项目根目录下（与.xcodeproj目录所在在的相同目录），名为FauxPasConfig的目录下，它的扩展名为.fauxpas.json. 这个文件也可以存在在其它地方，只要它的扩展名如同上述，并且你的Xcode项目包含一个指向它的引用。
+> 如果有多个配置文件在FauxPasConfig目录下，则默认使用名为main.fauxpas.json的那个。
+> 项目指定的配置文件将被自动选取，无论在命令行接口或在图形界面工具的调用时。
 
 ### 配置建议
 * 很多FauxPas的配置选项会影响它检查你的项目的时间。对于大多数Xcode项目的，默认是一个尝试利于平衡速度和兼容性的配置；对于你特定的项目，为了提高检查速度，调整一些选项，也是OK的。
 * 这里有一些可以帮助你检查项目速度更快的建议：
-> 避免选择workspace和scheme。假如你想检查的项目可以被独立地build（也就是说不用作为一个workspace的一部分来build），请设置“Xcode workspace to build project with”和“Xcode scheme to build project with”选项不被选中。
-> 避免执行完全build（full builds）。如果 “Build project before checking” 选项关闭，FauxPas可以更快地开始坚持你的项目。有时这个选项是必须被打开的（例如如果项目在build过程中会生成头文件），但是对于大多数项目可以安全地关闭这个选项。
-> 仅仅处理指定目标的PCHs。如果“Process only target precompiled headers” 选项是打开的，FauxPas可以更快地开始坚持你的项目。有时这个选项必须被关闭，但是对于大多数项目，它是可以安全地被打开的。
-> 选择仅仅一个架构（architecture）。如果你的项目通常是在多个中央处理器架构（CPU architectures）上build的，你可以限制build FauxPas调用仅仅一个架构来提升FauxPas的速度。你可以通过在“Additional xcodebuild arguments to use”选项上添加一个ARCHS build设置的值（例如ARCHS=armv7）来实现。 
+> 避免选择workspace和scheme。假如你想检查的项目可以被独立地build（也就是说不用作为一个workspace的一部分来build），请设置**“Xcode workspace to build project with”**和**“Xcode scheme to build project with”**选项不被选中。
+> 避免执行完全build（full builds）。如果**“Build project before checking”**选项关闭，FauxPas可以更快地开始坚持你的项目。有时这个选项是必须被打开的（例如如果项目在build过程中会生成头文件），但是对于大多数项目可以安全地关闭这个选项。
+> 仅仅处理指定目标的PCHs。如果**“Process only target precompiled headers”**选项是打开的，FauxPas可以更快地开始坚持你的项目。有时这个选项必须被关闭，但是对于大多数项目，它是可以安全地被打开的。
+> 选择仅仅一个架构（architecture）。如果你的项目通常是在多个中央处理器架构（CPU architectures）上build的，你可以限制build FauxPas调用仅仅一个架构来提升FauxPas的速度。你可以通过在**“Additional xcodebuild arguments to use”**选项上添加一个ARCHS build设置的值（例如ARCHS=armv7）来实现。 
 
 ## 过滤诊断
-* 在图形界面工具中，“Diagnostics”视图有一个文本输入框，它允许你输入一些限制展示诊断的过滤器。
-* 你可以添加过个过滤器，当遇到要让它们一个接一个地全部执行的情况
-* 支持下列过滤器
+> 在图形界面工具中，“Diagnostics”视图有一个文本输入框，它允许你输入一些限制展示诊断的过滤器。
+
+> 你可以添加过个过滤器，当遇到要让它们一个接一个地全部执行的情况。
+
+> 支持下列过滤器
+
 * 文件：仅展示匹配文件的诊断。可能会用到通配符\*。例如：file=foo.m 或 file=\*ViewController.m
 * 规则：仅展示zhid规则的诊断。例如：rule=Dot syntax usage
 * 效果（Impact）：仅展示指定效果（ (Functionality, Maintainability, Style)）的诊断。例如：impact=Functionality
@@ -105,15 +109,17 @@
 * 严重性：仅展示指定严重性(Error, Warning, Concern)的诊断。例如：severity=Error
 
 ## 制止诊断
-* 如果通过一个特定的规则，你没有得到任何有用的诊断，或者不同意这个规则的基本前提，只需从被执行的规则中排除这条即可。
+> 如果通过一个特定的规则，你没有得到任何有用的诊断，或者不同意这个规则的基本前提，只需从被执行的规则中排除这条即可。
 
 ### 在代码中制止诊断
-* 如果你想保持一个规则打开，但在你代码中一个特定区域中制止它的诊断，你可以使用定义在头文件FauxPasAnnotations.h中的宏来解决。
-* 要添加上述头文件到你的项目中，按下面的做：
+> 如果你想保持一个规则打开，但在你代码中一个特定区域中制止它的诊断，你可以使用定义在头文件FauxPasAnnotations.h中的宏来解决。
+
+> 要添加上述头文件到你的项目中，按下面的做：
+
 * 运行FauxPas图形界面工具
 * 打开你的工程
 * 选择 Project > Add Annotations Header… 菜单项
-* 关于怎样使用那些宏，更多的说明包含在这个头文件自身中
+> 关于怎样使用那些宏，更多的说明包含在这个头文件自身中
 
 ### 在特定的文件或目录中制止诊断
 * 在FauxPas中，每条规则都有一个名叫“Regexes for ignored file paths”的选项。这个选项可以被用来制止在这条规则下，全部的匹配它指定的正则表达式的文件路径

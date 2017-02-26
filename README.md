@@ -221,12 +221,14 @@
 * file —— 诊断指向的文件的全路径
 * context —— 诊断指向的那段代码的parent代码标记（a “parent” code symbol） 的名称或标记（例如：一个函数，方法或类）
 * extent —— 诊断指向的文件的位置的标记
-* —— start和end，都有下列的结构
-* ———— line —— 行号
-* ———— byteColumn —— 每行以字节为单位的列
-* ———— byteOffset —— 以字节为单位的相对于文件开头的偏移量
-* ———— utf16Column —— 每行以UTF-16为单位的列
-* ———— utf16Offset —— 以UTF-16为单位的相对于文件开头的偏移量
+```
+	start和end，都有下列的结构
+		line —— 行号
+		byteColumn —— 每行以字节为单位的列
+		byteOffset —— 以字节为单位的相对于文件开头的偏移量
+		utf16Column —— 每行以UTF-16为单位的列
+		utf16Offset —— 以UTF-16为单位的相对于文件开头的偏移量
+```
 * fileSnippet —— 诊断指向文件的段的内容
 * impact —— 这个诊断描述的问题的基本影响（Impact），应当是（functionality, maintainability or style）
 * severity —— 诊断的严重程度（一个[0-10]的整数值，较高的值表明较高的严重程度。3是“concern”，5是“warning”，9是“error”。）

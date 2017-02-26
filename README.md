@@ -210,6 +210,7 @@
 * diagnostics —— 一个诊断对象的数组
 
 > 诊断对象有下列域：
+
 * ruleShortName —— 给出诊断的规则的简短的名称
 * ruleName —— 给出诊断的规则的全称
 * ruleDescription —— 给出诊断的规则的全部描述
@@ -220,12 +221,12 @@
 * file —— 诊断指向的文件的全路径
 * context —— 诊断指向的那段代码的parent代码标记（a “parent” code symbol） 的名称或标记（例如：一个函数，方法或类）
 * extent —— 诊断指向的文件的位置的标记
-* 	start和end，都有下列的结构
-* 		line —— 行号
-* 		byteColumn —— 每行以字节为单位的列
-* 		byteOffset —— 以字节为单位的相对于文件开头的偏移量
-* 		utf16Column —— 每行以UTF-16为单位的列
-* 		utf16Offset —— 以UTF-16为单位的相对于文件开头的偏移量
+* —— start和end，都有下列的结构
+* ———— line —— 行号
+* ———— byteColumn —— 每行以字节为单位的列
+* ———— byteOffset —— 以字节为单位的相对于文件开头的偏移量
+* ———— utf16Column —— 每行以UTF-16为单位的列
+* ———— utf16Offset —— 以UTF-16为单位的相对于文件开头的偏移量
 * fileSnippet —— 诊断指向文件的段的内容
 * impact —— 这个诊断描述的问题的基本影响（Impact），应当是（functionality, maintainability or style）
 * severity —— 诊断的严重程度（一个[0-10]的整数值，较高的值表明较高的严重程度。3是“concern”，5是“warning”，9是“error”。）
@@ -234,8 +235,9 @@
 * confidenceDescription —— 对于confidence的文字描述
 
 ### 处理机器可读的输出
-* 你当然可以用任何你认为合适的方法来处理诊断，但是这里有一条建议：使用 jq 来给出JSON格式的输出。
-* 这里有一个例子，打印出项目中可能未被使用的资源文件的列表：
+> 你当然可以用任何你认为合适的方法来处理诊断，但是这里有一条建议：使用 jq 来给出JSON格式的输出。
+
+> 这里有一个例子，打印出项目中可能未被使用的资源文件的列表：
 ```
 	$ fauxpas --onlyRules UnusedResource -o json check MyProject.xcodeproj
   | jq --raw-output '.diagnostics[] | .file'
@@ -245,47 +247,51 @@
 
 ## 处理故障
 ### 当使用Xcode编译我的项目时，FauxPas给出了一些我不理解的编译错误
-* FauxPas使用了一个相对于Xcode些微不同的Clang编译器的版本（这是不得已而为之的：尽管LLVM/Clang是开源的，但苹果有它自己闭源的fork）。
+> FauxPas使用了一个相对于Xcode些微不同的Clang编译器的版本（这是不得已而为之的：尽管LLVM/Clang是开源的，但苹果有它自己闭源的fork）。
 
-* 比较Clang的版本
-* 执行下列命令来查看你安装的Xcode使用的Clang的版本：
+##### 比较Clang的版本
+> 执行下列命令来查看你安装的Xcode使用的Clang的版本：
 
 ```
 	xcrun clang -dM -E -x c /dev/null | grep __VERSION__
 ```
 
-* 执行下列命令来查看你安装的FauxPas使用的Clang的版本：
+> 执行下列命令来查看你安装的FauxPas使用的Clang的版本：
 
 ```
 	fauxpas -v version | grep Clang
 ```
 
-* 注意：然而苹果为它的Clang fork使用它自己版本号的方案，这造成了比较的不同。这个资源可以提供帮助[https://gist.github.com/yamaya/2924292.](https://gist.github.com/yamaya/2924292.)
+> 注意：然而苹果为它的Clang fork使用它自己版本号的方案，这造成了比较的不同。这个资源可以提供帮助[https://gist.github.com/yamaya/2924292.](https://gist.github.com/yamaya/2924292.)
 
-* 制止编译器警告
-* 如果你在项目中使用-Weverything警告标记，请尝试移除它（这个标记打开在Clang中的全部警告，甚至新的、错误的、试验性的都有）。如果你不想在你的项目配置中关掉这个标记，但就是想为FauxPas关掉它，你可以添加-Wno-everything这个值到“Additional compiler arguments to use”(--extraCompilerArgs)这个配置选项中。
-* 如果你只是想对于FauxPas禁掉全部的编译警告（对于你的项目却不），添加-w标记到“Additional compiler arguments to use”(--extraCompilerArgs)这个配置选项中。
+##### 制止编译器警告
+> 如果你在项目中使用-Weverything警告标记，请尝试移除它（这个标记打开在Clang中的全部警告，甚至新的、错误的、试验性的都有）。如果你不想在你的项目配置中关掉这个标记，但就是想为FauxPas关掉它，你可以添加-Wno-everything这个值到“Additional compiler arguments to use”(--extraCompilerArgs)这个配置选项中。
+
+> 如果你只是想对于FauxPas禁掉全部的编译警告（对于你的项目却不），添加-w标记到“Additional compiler arguments to use”(--extraCompilerArgs)这个配置选项中。
 
 ### FauxPas检查我的项目失败
-* 请确认FauxPas对你的项目使用了正确的xcodebuild参数。如果你打开了--verbose选项，FauxPas将打印被用到log输出中的xcodebuild参数。
-* 为了确定正确地build你的项目需要什么xcodebuild参数，你可以在终端cd到你.xcodeproj目录所在的目录，然后尝试在这里执行xcodebuild（开始使用和FauxPas相同的参数？？）
+> 请确认FauxPas对你的项目使用了正确的xcodebuild参数。如果你打开了--verbose选项，FauxPas将打印被用到log输出中的xcodebuild参数。
 
-* 生成源码的项目
-* 如果你的项目在build过程中生成或修改源文件（例如：头文件），你必须打开“Build project before checking” (--fullBuild)选项。如果正确地解释（interpreting）你项目的源码需要依赖在build过程中生成的其它东西（例如：一个依赖的项目），你也需要进行同样的操作。
+> 为了确定正确地build你的项目需要什么xcodebuild参数，你可以在终端cd到你.xcodeproj目录所在的目录，然后尝试在这里执行xcodebuild（开始使用和FauxPas相同的参数？？）
 
-* 项目使用一个workspace来编译
-* 如果你的项目通常使用Xcode Workspace来build，并且无法作为一个独立的项目来build，你就必须指定--workspace和--scheme选项。
-* 当你在图形界面工具中，打开一个没有关联的配置文件的项目，就会展示一个配置帮助表（configuration help sheet），让你来轻松选择workspace和scheme来用。
+##### 生成源码的项目
+> 如果你的项目在build过程中生成或修改源文件（例如：头文件），你必须打开“Build project before checking” (--fullBuild)选项。如果正确地解释（interpreting）你项目的源码需要依赖在build过程中生成的其它东西（例如：一个依赖的项目），你也需要进行同样的操作。
+
+##### 项目使用一个workspace来编译
+> 如果你的项目通常使用Xcode Workspace来build，并且无法作为一个独立的项目来build，你就必须指定--workspace和--scheme选项。
+
+> 当你在图形界面工具中，打开一个没有关联的配置文件的项目，就会展示一个配置帮助表（configuration help sheet），让你来轻松选择workspace和scheme来用。
 
 ### 我安装了多个版本的Xcode；我怎样确保FauxPas使用了我想用的那一个
-* FauxPas使用xcrun来寻找它需要的全部Xcode开发者工具（例如xcodebuild）。如果你打开了--verbose选项，FauxPas将在你检查项目时打印这些路径到log中。
-* 你可以使用xcode-select程序来改变你的系统使用哪个Xcode
+> FauxPas使用xcrun来寻找它需要的全部Xcode开发者工具（例如xcodebuild）。如果你打开了--verbose选项，FauxPas将在你检查项目时打印这些路径到log中。
+
+> 你可以使用xcode-select程序来改变你的系统使用哪个Xcode
 
 ```
 	xcode-select -switch /Applications/Xcode.app
 ```
 
-* 如果你不想让这个改变全局化，你可以在执行FauxPas前设置 DEVELOPER_DIR 环境变量
+> 如果你不想让这个改变全局化，你可以在执行FauxPas前设置 DEVELOPER_DIR 环境变量
 
 ```
 	DEVELOPER_DIR="/Applications/Xcode.app" fauxpas <arguments...>

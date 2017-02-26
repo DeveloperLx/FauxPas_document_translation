@@ -105,11 +105,11 @@
 
 > 你可以添加多个过滤器，它们将一个接一个地被全部执行。
 
-> 支持下列过滤器
+> 支持下列过滤器：
 
 * 文件：仅展示匹配文件的诊断。可能会用到通配符\*。例如：file=foo.m 或 file=\*ViewController.m
 * 规则：仅展示匹配规则的诊断。例如：rule=Dot syntax usage
-* 效果（Impact）：仅展示指定效果（ (Functionality, Maintainability, Style)）的诊断。例如：impact=Functionality
+* 效果（Impact）：仅展示指定效果（Functionality, Maintainability, Style）的诊断。例如：impact=Functionality
 * 靠谱程度（Confidence）：仅展示指定靠谱程度(Absolute, High, Medium, Low)的诊断。例如：confidence=High
 * 严重程度：仅展示指定严重程度(Error, Warning, Concern)的诊断。例如：severity=Error
 
@@ -294,13 +294,13 @@
 ### 我安装了多个版本的Xcode；我怎样确保FauxPas使用了我想用的那一个
 > FauxPas使用xcrun来寻找它需要的全部Xcode开发者工具（例如xcodebuild）。如果你打开了--verbose选项，FauxPas将在你检查项目时打印这些路径到log中。
 
-> 你可以使用xcode-select程序来改变你的系统使用哪个Xcode
+> 你可以使用xcode-select程序来改变你的系统使用哪个Xcode。
 
 ```
 	xcode-select -switch /Applications/Xcode.app
 ```
 
-> 如果你不想让这个改变全局化，你可以在执行FauxPas前设置 DEVELOPER_DIR 环境变量
+> 如果你不想让这个改变全局化，你可以在执行FauxPas前设置 DEVELOPER_DIR 环境变量。
 
 ```
 	DEVELOPER_DIR="/Applications/Xcode.app" fauxpas <arguments...>

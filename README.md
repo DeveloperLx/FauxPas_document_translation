@@ -75,12 +75,13 @@
 
 ## 配置
 > FauxPas可以通过下列方式进行配置：
+
 * 命令行参数（如果你使用命令行接口）
 * 图形界面工具
 * 配置文件
 
-> 配置文件可以使用JSON来写。查看一个完整的示例配置文件，可以在终端执行执行 fauxpas exampleConfig（**注意这要求命令行接口工具必须被安装**）
-> 当使用命令行接口，配置文件可以选取通过 -c/--configFile 参数
+> 配置文件可以使用JSON来写。查看一个完整的示例配置文件，可以在终端执行执行 fauxpas exampleConfig（**注意这要求命令行接口工具必须被安装**）。
+> 当使用命令行接口，配置文件可以选取通过 -c/--configFile 参数。
 
 ### 项目指定配置文件
 > 引用一个项目指定的配置文件，可以通过添加它到一个在项目根目录下（与.xcodeproj目录所在在的相同目录），名为FauxPasConfig的目录下，它的扩展名为.fauxpas.json. 这个文件也可以存在在其它地方，只要它的扩展名如同上述，并且你的Xcode项目包含一个指向它的引用。
@@ -133,22 +134,23 @@
 
 ## 启动FauxPas的快捷方式
 ### 在FauxPas图形界面工具中快速打开活动的Xcode项目
-* 在FauxPas图形界面工具中，你可以使用open命令打开一个指定的Xcode项目。
-* 使用一个简短的AppleScript片段来从Xcode中获取当前活动的项目的路径：
+> 在FauxPas图形界面工具中，你可以使用open命令打开一个指定的Xcode项目。
+
+> 使用一个简短的AppleScript片段来从Xcode中获取当前活动的项目的路径：
 
 ```
 	open -a FauxPas "`osascript -e 'tell application \"Xcode\" to return path of active project document'`"
 
 ```
 
-* 你可以为此使用一个协助应用（像是Keyboard Maestro, FastScripts或Spark）来指定一个全局的热键
+> 你可以为此使用一个协助应用（像是Keyboard Maestro, FastScripts或Spark）来指定一个全局的热键。
 
 ### 在Xcode build期间执行检查
-* FauxPas可以在Xcode的build phase中被执行。你可以看到它产生的诊断结果在Xcode图形界面工具中，并且轻松地跳转到相应的文件位置中。这个方法也允许FauxPas打断build，通过返回一个非零的退出状态（by returning a nonzero exit status）（--minErrorStatusSeverity这个选项可以被用来控制FauxPas染回错误退出状态的条件）。
+> FauxPas可以在Xcode的build phase中被执行。你可以看到它产生的诊断结果在Xcode图形界面工具中，并且轻松地跳转到相应的文件位置中。这个方法也允许FauxPas打断build，通过返回一个非零的退出状态（by returning a nonzero exit status）（--minErrorStatusSeverity这个选项可以被用来控制FauxPas染回错误退出状态的条件）。
 
 * 确保你的FauxPas命令行接口已安装
 * 在Xcode你的项目中，为你期望检查的target创建一个新的“Run Script” build phase
-* 添加下列内容作为脚本
+* 添加下列内容作为脚本：
 
 ```
  [[ ${FAUXPAS_SKIP} == 1 ]] && exit 0
@@ -161,10 +163,11 @@
  fi
 ```
 
-* 带有这个脚本后，FauxPas检查将在build过程中被执行，除非FAUXPAS_SKIP这个build设置被赋值为1。
+> 带有这个脚本后，FauxPas检查将在build过程中被执行，除非FAUXPAS_SKIP这个build设置被赋值为1。
 
 ### 在Xcode中手动调用FauxPas
-* 要想在Xcode中手动运行FauxPas:
+> 要想在Xcode中手动运行FauxPas:
+
 * 确保你的FauxPas命令行接口已安装
 * 创建一个新的名为“Faux Pas”的Aggregate target到你的项目中
 * 给“Faux Pas”这个target创建一个名为“Run Faux Pas”的新的“Run Script” build phase
@@ -174,23 +177,26 @@
 	/usr/local/bin/fauxpas -o xcode check "PROJECT_NAME.xcodeproj"
 ```
 
-* 现在你可以通过“Faux Pas”scheme 来调用FauxPas。
+> 现在你可以通过“Faux Pas”scheme 来调用FauxPas。
 
 ## 使用定制的脚本处理诊断
-* 如果你想写自己的脚本来处理FauxPas给出的诊断，你必须首先让它产生机器可读的输出。
+> 如果你想写自己的脚本来处理FauxPas给出的诊断，你必须首先让它产生机器可读的输出。
 
 ### 给出机器可读的输出
-* 在命令行接口中，--outputFormat (或 -o) 参数允许你指定诊断的标准输出的格式。可选的值如下：
+> 在命令行接口中，--outputFormat (或 -o) 参数允许你指定诊断的标准输出的格式。可选的值如下：
+
 * human —— 人类可读的输出（缺省）
 * json —— json输出
 * plist —— 属性列表输出（当前这个输出作为一个XML列表）
 * xcode —— 能够被Xcode理解的，基于行的输出。当你使用 check-xcode 命令时，它是默认的选项，它可以使Xcode展示诊断作为错误和警告。
-* 在图形界面工具中，你可以在诊断视图中，按Export Diagnostics…按钮，以上述任意格式来保存诊断到一个文件中。
+
+> 在图形界面工具中，你可以在诊断视图中，按Export Diagnostics…按钮，以上述任意格式来保存诊断到一个文件中。
 
 ### 机器可读的输出的结构
-* 对于全部机器可读的格式，其实际诊断的结构都是相同的————仅仅是序列化输出的变量（serialization format varies）不同（仅存在的例外是由于属性列表域中没有“null”的值，因此这些域只是简化给出）。
+> 对于全部机器可读的格式，其实际诊断的结构都是相同的————仅仅是序列化输出的变量（serialization format varies）不同（仅存在的例外是由于属性列表域中没有“null”的值，因此这些域只是简化给出）。
 
-* 根对象有下列域：
+> 根对象有下列域：
+
 * fauxPasVersion —— FauxPas用来生成输出的版本
 * timeStamp —— 当给出输出时的一个unix时间戳
 * projectPath —— .xcodeproj目录的文件系统路径（filesystem path）
@@ -203,7 +209,7 @@
 * versionControlRevision —— 当前版本控制系统的版本标识（当前仅支持Git）
 * diagnostics —— 一个诊断对象的数组
 
-* 诊断对象有下列域：
+> 诊断对象有下列域：
 * ruleShortName —— 给出诊断的规则的简短的名称
 * ruleName —— 给出诊断的规则的全称
 * ruleDescription —— 给出诊断的规则的全部描述

@@ -1,4 +1,4 @@
-# FauxPas_document_-translation
+# FauxPas_document_translation
 
 #### 原文：[http://fauxpasapp.com/docs](http://fauxpasapp.com/docs)
 #### 翻译：[DeveloperLx](http://weibo.com/DeveloperLx)
